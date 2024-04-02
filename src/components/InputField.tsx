@@ -3,12 +3,19 @@ import React from "react";
 interface InputFieldProps {
     toDo: string;
     setToDo: React.Dispatch<React.SetStateAction<string>>;
-    handleAdd: (e: React.FormEvent) => void;
+    handleAdd: (description: string) => void;
 }
 
 const InputField:React.FC<InputFieldProps> = ({toDo, setToDo, handleAdd}):JSX.Element => {
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if(!toDo.trim()) return;
+        handleAdd(toDo);
+        setToDo("");
+    }
+
     return (
-        <form className="max-w-md mx-auto w-[90%]" onSubmit={handleAdd}>
+        <form className="max-w-md mx-auto w-[90%]" onSubmit={handleSubmit}>
             <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Adicionar</label>
             <div className="relative">
                 <input type="search" 

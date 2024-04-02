@@ -3,51 +3,45 @@ import { ToDo } from "../models/ToDo";
 import { BsPencil } from "react-icons/bs";
 import { RiDeleteBin7Line } from "react-icons/ri";
 import { CiBookmarkCheck } from "react-icons/ci";
-import { toDoReducer } from "../services/ToDo";
 
 interface IToDo {
   toDo: ToDo;
   toDos: ToDo[];
-  setToDos: React.Dispatch<React.SetStateAction<ToDo[]>>;
+  // setToDos: React.Dispatch<React.SetStateAction<ToDo[]>>;
+  handleDelete: (identifier: number) => void;
+  handleDone: (identifier: number) => void;
 }
 
 const SingleToDo: React.FC<IToDo> = ({
   toDo,
   toDos,
-  setToDos,
+  handleDelete,
+  handleDone
+  // setToDos,
 }): JSX.Element => {
   const [edit, setEdit] = useState<boolean>(false);
   const [editTodo, setEditTodo] = useState<string>(toDo.description);
 
-  const [state, dispatch] = useReducer(toDoReducer, [toDo]);
-
-  const handleDone = (toDoId: number): void => {
-    setToDos(
-      toDos.map((toDo) =>
-        toDo.id === toDoId ? { ...toDo, isDone: !toDo.isDone } : toDo
-      )
-    );
+  const handleDoneTodo = (): void => {
+    handleDone(toDo.id);
   };
 
-  const handleDelete = (): void => {
-    dispatch({
-      type: 'remove',
-      payload: toDo.id
-    });
+  const handleRemove = (): void => {
+    handleDelete(toDo.id);  
   };
 
-  useEffect(()=> {
-    console.log('state has been changed', state);
-    setToDos(state);
-  }, [state]);
+  // useEffect(()=> {
+  //   console.log('state has been changed', state);
+  //   setToDos(state);
+  // }, [state]);
 
   const handleEdit = (e: React.FormEvent, id: number): void => {
     e.preventDefault();
-    setToDos(
-      toDos.map((toDo) =>
-        toDo.id === id ? { ...toDo, description: editTodo } : toDo
-      )
-    );
+    // setToDos(
+    //   toDos.map((toDo) =>
+    //     toDo.id === id ? { ...toDo, description: editTodo } : toDo
+    //   )
+    // );
     setEdit(false);
   };
 
@@ -117,7 +111,7 @@ const SingleToDo: React.FC<IToDo> = ({
                     focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm p-3 
                     me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none 
                     dark:focus:ring-blue-800"
-            onClick={() => handleDelete()}
+            onClick={() => handleRemove()}
           >
             <RiDeleteBin7Line />
           </button>
@@ -127,7 +121,7 @@ const SingleToDo: React.FC<IToDo> = ({
                     focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm p-3 
                     me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none 
                     dark:focus:ring-blue-800"
-            onClick={() => handleDone(toDo.id)}
+            onClick={() => handleDoneTodo()}
           >
             <CiBookmarkCheck />
           </button>

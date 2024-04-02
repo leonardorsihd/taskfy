@@ -25,7 +25,7 @@ export const toDoReducer = (state: ToDo[], action: ToDoActions) => {
       return state.filter((todo) => todo.id !== action.payload);
     case "done":
       return state.map((todo) =>
-        todo.id !== action.payload ? { ...todo, isDone: !todo.isDone } : todo
+        todo.id === action.payload ? { ...todo, isDone: !todo.isDone } : todo
       );
   }
 };
