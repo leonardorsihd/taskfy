@@ -1,10 +1,5 @@
 import React from "react";
-
-interface InputFieldProps {
-    toDo: string;
-    setToDo: React.Dispatch<React.SetStateAction<string>>;
-    handleAdd: (description: string) => void;
-}
+import { InputFieldProps } from "../interfaces/IInputFieldProps";
 
 const InputField:React.FC<InputFieldProps> = ({toDo, setToDo, handleAdd}):JSX.Element => {
     const handleSubmit = (e: React.FormEvent) => {

@@ -12,6 +12,13 @@ export type ToDoActions =
   | {
       type: "done";
       payload: number;
+    }
+  | {
+      type: "edit";
+      payload: {
+        id: number,
+        description: string
+      }
     };
 
 export const toDoReducer = (state: ToDo[], action: ToDoActions) => {
@@ -27,5 +34,8 @@ export const toDoReducer = (state: ToDo[], action: ToDoActions) => {
       return state.map((todo) =>
         todo.id === action.payload ? { ...todo, isDone: !todo.isDone } : todo
       );
+    case "edit":
+      return state.map((todo) => todo.id === action.payload.id ? { ...todo, description: action.payload.description } : todo );
+    default: return state;
   }
 };

@@ -21,22 +21,32 @@ const App:React.FC = ():JSX.Element => {
     dispatch({
       type: 'remove',
       payload: identifier
-    })
-  }
+    });
+  };
 
   const completeTodo = (identifier: number) => {
     dispatch({
       type: 'done',
       payload: identifier
+    });
+  };
+
+  const editTodo = (identifier: number, description: string) => {
+    dispatch({
+      type: 'edit',
+      payload: {
+        id: identifier,
+        description: description
+      }
     })
-  }
+  };
 
   return (
     <div className="App">
       <h1 className="mb-4 mt-2 text-2xl font-bold leading-none tracking-tight text-white md:text-3xl lg:text-3xl">Taskfy</h1>
       <p className="mb-6 text-lg font-normal text-white lg:text-xl sm:px-16 xl:px-48">Feel free to add all your tasks in the input field below.</p>
       <InputField toDo={toDo} setToDo={setToDo} handleAdd={addToDo} />
-      <ToDoList toDos={todos} removeToDoHandler={removeToDo} completeToDoHandler={completeTodo}/>
+      <ToDoList toDos={todos} removeToDoHandler={removeToDo} completeToDoHandler={completeTodo} editToDoHandler={editTodo}/>
     </div> 
   );
 }

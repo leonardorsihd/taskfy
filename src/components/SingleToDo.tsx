@@ -1,23 +1,16 @@
-import React, { useEffect, useReducer, useRef, useState } from "react";
-import { ToDo } from "../models/ToDo";
+import React, { useEffect, useRef, useState } from "react";
+
 import { BsPencil } from "react-icons/bs";
 import { RiDeleteBin7Line } from "react-icons/ri";
 import { CiBookmarkCheck } from "react-icons/ci";
+import { IToDo } from "../interfaces/IToDo";
 
-interface IToDo {
-  toDo: ToDo;
-  toDos: ToDo[];
-  // setToDos: React.Dispatch<React.SetStateAction<ToDo[]>>;
-  handleDelete: (identifier: number) => void;
-  handleDone: (identifier: number) => void;
-}
 
 const SingleToDo: React.FC<IToDo> = ({
   toDo,
-  toDos,
   handleDelete,
-  handleDone
-  // setToDos,
+  handleDone,
+  handleEdit
 }): JSX.Element => {
   const [edit, setEdit] = useState<boolean>(false);
   const [editTodo, setEditTodo] = useState<string>(toDo.description);
@@ -30,32 +23,20 @@ const SingleToDo: React.FC<IToDo> = ({
     handleDelete(toDo.id);  
   };
 
-  // useEffect(()=> {
-  //   console.log('state has been changed', state);
-  //   setToDos(state);
-  // }, [state]);
-
-  const handleEdit = (e: React.FormEvent, id: number): void => {
+  const handleToDoEdit = (e: React.FormEvent, id: number): void => {
     e.preventDefault();
-    // setToDos(
-    //   toDos.map((toDo) =>
-    //     toDo.id === id ? { ...toDo, description: editTodo } : toDo
-    //   )
-    // );
+    handleEdit(id, editTodo);
     setEdit(false);
   };
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  /**
-   * The below function automatically sets focus to input field when edit variable's value changes
-   * **/
   useEffect(() => {
     inputRef.current?.focus();
   }, [edit]);
 
   return (
-    <form action="" className="w-100" onSubmit={(e) => handleEdit(e, toDo.id)}>
+    <form action="" className="w-100" onSubmit={(e) => handleToDoEdit(e, toDo.id)}>
       <a
         href="#"
         className="w-100 flex items-center mt-2 block p-6 bg-white border border-gray-200 rounded-lg 
